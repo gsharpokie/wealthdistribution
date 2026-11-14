@@ -7,7 +7,8 @@ An interactive guess-first activity about the U.S. wealth distribution. Students
 ## What it does
 
 - **Your guess:** students split $100 among four groups of households: the 50 least wealthy, the next 40, the next 9, and the single wealthiest.
-- **The real split:** their guess and the actual split appear as two bars on the same scale, with a table of dollars per household and a note on their biggest miss.
+- **A live pie chart** next to the sliders updates as students hand out the $100 (money not yet handed out shows in gray).
+- **The real split:** three pie charts (the 100 households by group, the student’s guess, and the actual split), then the guess and the actual split as two bars on the same scale, a table of dollars per household, and a note on their biggest miss.
 - **The fuller picture:** what Americans guessed and preferred in Norton and Ariely’s 2005 survey; the top 1%’s record share; the bottom half’s recovery from its 2010–2012 low; and why wealth isn’t the same as income (age, Social Security).
 - **Discussion questions.**
 
