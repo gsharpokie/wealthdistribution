@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Who Has the Wealth?</title>
-<meta name="description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta name="description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think it should be, then the way you think it really is, and compare both with the Federal Reserve’s numbers.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gsharpokie.github.io/wealthdistribution/">
 <meta property="og:title" content="Who Has the Wealth?">
-<meta property="og:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta property="og:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think it should be, then the way you think it really is, and compare both with the Federal Reserve’s numbers.">
 <meta property="og:image" content="https://gsharpokie.github.io/wealthdistribution/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@gsharpokie">
 <meta name="twitter:title" content="Who Has the Wealth?">
-<meta name="twitter:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta name="twitter:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think it should be, then the way you think it really is, and compare both with the Federal Reserve’s numbers.">
 <meta name="twitter:image" content="https://gsharpokie.github.io/wealthdistribution/preview.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23173b2f'/%3E%3Crect x='5' y='22' width='4' height='5' fill='%23cfe8d8'/%3E%3Crect x='11' y='17' width='4' height='10' fill='%23cfe8d8'/%3E%3Crect x='17' y='12' width='4' height='15' fill='%23cfe8d8'/%3E%3Crect x='23' y='5' width='4' height='22' fill='%23f2c14e'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +87,7 @@ th { font-size: .8rem; color: var(--muted); font-weight: 600; }
 .notes { font-size: .88rem; color: var(--muted); }
 footer { font-size: .85rem; color: var(--muted); }
 .hidden { display: none !important; }
+.steps { font-size: .85rem; color: var(--muted); margin-bottom: -.6rem; }
 .guessgrid { display: grid; grid-template-columns: 1fr 13rem; gap: 1.2rem; align-items: center; }
 .livepie { display: grid; gap: .3rem; justify-items: center; }
 .pies { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1rem; }
@@ -95,7 +96,8 @@ footer { font-size: .85rem; color: var(--muted); }
 .pie text, .livepie text { font-family: var(--body); font-weight: 700; font-size: 9px; font-variant-numeric: tabular-nums; }
 .pie-label { font-size: .9rem; font-weight: 600; }
 .pie-sub { font-size: .8rem; color: var(--muted); }
-@media (max-width: 640px) { .guessgrid { grid-template-columns: 1fr; } .livepie svg { max-width: 10rem; } }
+@media (max-width: 640px) { .steps { font-size: .85rem; color: var(--muted); margin-bottom: -.6rem; }
+.guessgrid { grid-template-columns: 1fr; } .livepie svg { max-width: 10rem; } }
 @media (max-width: 560px) { .card { padding: 1.1rem; } }
 </style>
 </head>
@@ -104,21 +106,23 @@ footer { font-size: .85rem; color: var(--muted); }
   <header>
     <div class="kicker">A companion to <em>A Sociology Experiment</em>, Chapter 4: Social Class, Inequality, and Poverty · By Gwen Sharp · <a href="https://x.com/gsharpokie">@gsharpokie</a></div>
     <h1>Who Has the Wealth?</h1>
-    <p class="lede">Imagine the United States as 100 households, lined up from least wealthy to most, sharing $100 of wealth. Wealth means everything a household owns (home, savings, retirement accounts, stocks) minus what it owes. Divide the $100 the way you think it’s really divided.</p>
+    <p class="lede">Imagine the United States as 100 households, lined up from least wealthy to most, sharing $100 of wealth. Wealth means everything a household owns (home, savings, retirement accounts, stocks) minus what it owes. You’ll divide the $100 twice: first the way you think it <em>should</em> be divided, then the way you think it <em>really</em> is.</p>
   </header>
 
   <section class="card" id="guess">
-    <h2>Your guess</h2>
+    <div class="steps" id="stepLabel">Step 1 of 2</div>
+    <h2 id="stepHead">What would be a good split?</h2>
+    <p class="take" id="stepText" style="margin:0">Divide the $100 the way you think it <em>should</em> be divided. There’s no right answer here, and people disagree. Some think everyone should have the same; others think large differences are fair if people earned them.</p>
     <div class="guessgrid">
       <div id="rows"></div>
-      <div class="livepie"><div id="livePie"></div><div class="pie-sub">Your split of the $100</div></div>
+      <div class="livepie"><div id="livePie"></div><div class="pie-sub" id="pieSub">Your ideal split of the $100</div></div>
     </div>
     <div class="legend" id="legend0" aria-hidden="true"></div>
     <div class="left">
       <span>Left to hand out: <span class="n" id="left">$0</span></span>
       <span style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-        <button class="linkish" id="skip">Skip to the answer</button>
-        <button class="primary" id="lock">Lock in my guess</button>
+        <button class="linkish" id="skip">Skip this step</button>
+        <button class="primary" id="lock">Lock in my ideal</button>
       </span>
     </div>
     <p class="notes" id="hint" style="margin:0">To give one group more, lower another group first. All $100 has to be handed out.</p>
@@ -136,12 +140,16 @@ footer { font-size: .85rem; color: var(--muted); }
   <section class="card prose hidden after">
     <h2>The fuller picture</h2>
     <p><strong>Most people underestimate the gap.</strong> In a 2005 survey of 5,522 Americans, people guessed that the richest fifth of households held about 59% of the country’s wealth. At the time it held about 84%. Asked what would be ideal, they said about 32%. Republicans and Democrats, and richer and poorer people, described similar ideals.</p>
+    <p><strong>Your ideal, your guess, and reality.</strong> That survey asked the same two things this page does: what people thought the split was, and what they thought it should be. On average, their ideal wasn’t an equal split: it still gave the richest fifth about 32%, more than an equal share of 20%. They wanted some inequality, just much less than exists.</p>
+    <p><strong>How you ask matters.</strong> Two other researchers, Kimmo Eriksson and Brent Simpson, argued that the survey’s results partly reflect the way the question was asked. Dividing up 100% among groups is hard, and people tend to start from equal shares and adjust. When they asked people for the average wealth of a household in each group instead, the guesses showed much more inequality. The original authors replied that, asked either way, Americans say they want a more equal split than the real one. Keep this in mind for your own answers: your sliders started at $25 each.</p>
     <p><strong>The top share is at a record.</strong> The top 1% held 22.8% of wealth when the Federal Reserve’s series began in 1989 and 32.5% in mid-2026, the highest in the series.</p>
     <p><strong>The bottom half has recovered from its low point, though not to where it started.</strong> Its share fell from 3.5% in 1989 to 0.4% after the housing crash (2010–2012). It was 2.3% in mid-2026.</p>
     <p><strong>Wealth isn’t income, and age matters.</strong> People usually build wealth over a lifetime, so a 25-year-old with student loans and a 65-year-old with a paid-off house can land in very different groups without being in different social classes. These figures also don’t count future Social Security benefits, which matter most for households with little other wealth.</p>
     <h3>Talk about it</h3>
     <ol>
+      <li>Compare your ideal split with your classmates’. Where do you disagree, and what reasons do people give? Did anyone choose a perfectly equal split? Why or why not?</li>
       <li>How close was your guess? Which group did you miss by the most, and why do you think that is?</li>
+      <li>Was your guess close to your ideal? Do you think picking your ideal first pulled your guess toward it? Did starting the sliders at $25 each shape your answers?</li>
       <li>Most of us rarely see how much wealth other people have. What do we see instead, and how might that shape our guesses?</li>
       <li>In the 2005 survey, people across political lines said they’d prefer a more equal split than the real one. If that’s so, why don’t more people push for it? Economists and political scientists point to beliefs about mobility, disagreement about causes, and not knowing the real numbers. Which seems most convincing?</li>
       <li>Would the picture look different if we measured income instead of wealth? Why?</li>
@@ -152,7 +160,7 @@ footer { font-size: .85rem; color: var(--muted); }
   <section class="notes prose">
     <h3>About the data</h3>
     <p>Shares of household net worth come from the Federal Reserve’s Distributional Financial Accounts for the second quarter of 2026 (released September 18, 2026): bottom 50% of households, 2.3%; next 40%, 28.8%; next 9%, 36.4%; top 1%, 32.5%. The Fed updates these every quarter and revises earlier quarters. The 100-household picture is these shares applied to $100.</p>
-    <p><strong>Sources:</strong> Board of Governors of the Federal Reserve System, <a href="https://www.federalreserve.gov/releases/z1/dataviz/dfa/">Distributional Financial Accounts</a>, via FRED (series <a href="https://fred.stlouisfed.org/series/WFRBST01134">WFRBST01134</a> and <a href="https://fred.stlouisfed.org/series/WFRBSB50215">WFRBSB50215</a>). Norton, Michael I. and Dan Ariely. 2011. “Building a Better America—One Wealth Quintile at a Time.” <em>Perspectives on Psychological Science</em> 6(1): 9–12.</p>
+    <p><strong>Sources:</strong> Board of Governors of the Federal Reserve System, <a href="https://www.federalreserve.gov/releases/z1/dataviz/dfa/">Distributional Financial Accounts</a>, via FRED (series <a href="https://fred.stlouisfed.org/series/WFRBST01134">WFRBST01134</a> and <a href="https://fred.stlouisfed.org/series/WFRBSB50215">WFRBSB50215</a>). Eriksson, Kimmo, and Brent Simpson. 2012. <a href="https://dlab.sauder.ubc.ca/sjdm/journal/12/121027/jdm121027.html">“What Do Americans Know about Inequality? It Depends on How You Ask Them.”</a> <em>Judgment and Decision Making</em> 7(6): 741–745. Norton, Michael I., and Dan Ariely. 2013. <a href="https://dlab.sauder.ubc.ca/sjdm/journal/13/13227/jdm13227.html">“American’s Desire for Less Wealth Inequality Does Not Depend on How You Ask Them.”</a> <em>Judgment and Decision Making</em> 8(3): 393–394. Norton, Michael I. and Dan Ariely. 2011. “Building a Better America—One Wealth Quintile at a Time.” <em>Perspectives on Psychological Science</em> 6(1): 9–12.</p>
     <h3>How to cite this page</h3>
     <p>Sharp, Gwen. 2026. “Who Has the Wealth?” <a href="https://gsharpokie.github.io/wealthdistribution/">https://gsharpokie.github.io/wealthdistribution/</a></p>
     <p>Spot an error? <a href="https://github.com/gsharpokie/wealthdistribution/issues/new">Suggest a correction</a> (needs a free GitHub account).</p>
@@ -172,6 +180,7 @@ const G = [
 ];
 const $ = id => document.getElementById(id);
 const vals = [25, 25, 25, 25];
+let step = "ideal", ideal = null;   // ideal: the student’s "should be" split, or null if skipped
 const money = v => "$" + (Number.isInteger(v) ? v : v.toFixed(2));
 const per = v => "$" + (v < 1 ? v.toFixed(2) : v.toFixed(2));
 
@@ -220,18 +229,31 @@ function bar(label, arr) {
   return `<div><div class="bar-label">${label}</div><div class="bar" role="img" aria-label="${label}: ${G.map((g, i) => g.short + " " + money(arr[i])).join(", ")}">` +
     G.map((g, i) => `<span style="flex:${Math.max(arr[i], 0.0001)} 1 0;background:${g.color}">${arr[i] >= 7 ? money(arr[i]) : ""}</span>`).join("") + `</div></div>`;
 }
+function toGuess(saved) {
+  // Move from the "should be" step to the "really is" step.
+  ideal = saved ? vals.slice() : null; step = "guess";
+  $("stepLabel").textContent = "Step 2 of 2";
+  $("stepHead").textContent = "Now, what’s the real split?";
+  $("stepText").innerHTML = "Divide the $100 the way you think it’s <em>really</em> divided in the U.S. today. This one has a right answer.";
+  $("pieSub").textContent = "Your guess at the real split";
+  $("lock").textContent = "Lock in my guess"; $("skip").textContent = "Skip to the answer";
+  for (let i = 0; i < 4; i++) vals[i] = 0;
+  G.forEach((g, i) => set(i, 25));
+  $("guess").scrollIntoView({ block: "start" });
+}
 function reveal(guessed) {
   document.querySelectorAll(".after").forEach(e => e.classList.remove("hidden"));
   $("legend").innerHTML = G.map(g => `<span><span class="sw" style="background:${g.color}"></span>${g.short}</span>`).join("");
   const actual = G.map(g => g.actual);
   $("pies").innerHTML = pieBox("The 100 households", "Who’s in each group", G.map(g => g.n), v => v) +
-    (guessed ? pieBox("Your guess", "How you split the $100", vals, v => "$" + v) : "") +
+    (ideal ? pieBox("Your ideal", "How you think it should be split", ideal, v => "$" + v) : "") +
+    (guessed ? pieBox("Your guess", "How you think it’s really split", vals, v => "$" + v) : "") +
     pieBox(`Actual, ${AS_OF}`, "How the $100 is really split", actual, money);
-  $("bars").innerHTML = (guessed ? bar("Your guess", vals) : "") + bar(`Actual, ${AS_OF}`, actual);
+  $("bars").innerHTML = (ideal ? bar("Your ideal", ideal) : "") + (guessed ? bar("Your guess", vals) : "") + bar(`Actual, ${AS_OF}`, actual);
   const each = G.map(g => g.actual / g.n);
   $("punch").innerHTML = `The 50 least wealthy households share <strong>${money(G[0].actual)}</strong>, about <strong>5 cents</strong> each. The single wealthiest household has <strong>${money(G[3].actual)}</strong>, more than the bottom 90 households combined (${money(G[0].actual + G[1].actual)}).`;
-  let t = `<thead><tr><th>Group</th>${guessed ? "<th>Your guess</th>" : ""}<th>Actual</th><th>Per household</th></tr></thead><tbody>`;
-  G.forEach((g, i) => t += `<tr><td>${g.name}</td>${guessed ? `<td>$${vals[i]}</td>` : ""}<td>${money(g.actual)}</td><td>${per(each[i])}</td></tr>`);
+  let t = `<thead><tr><th>Group</th>${ideal ? "<th>Your ideal</th>" : ""}${guessed ? "<th>Your guess</th>" : ""}<th>Actual</th><th>Per household</th></tr></thead><tbody>`;
+  G.forEach((g, i) => t += `<tr><td>${g.name}</td>${ideal ? `<td>$${ideal[i]}</td>` : ""}${guessed ? `<td>$${vals[i]}</td>` : ""}<td>${money(g.actual)}</td><td>${per(each[i])}</td></tr>`);
   $("tbl").innerHTML = t + "</tbody>";
   if (guessed) {
     const miss = G.map((g, i) => Math.abs(vals[i] - g.actual));
@@ -241,13 +263,16 @@ function reveal(guessed) {
     document.querySelectorAll("#rows input, #rows button, #lock").forEach(e => e.disabled = true);
     $("skip").classList.add("hidden"); $("hint").classList.add("hidden");
   }
+  if (ideal) $("punch").innerHTML += ` In your ideal split, the wealthiest household would have <strong>$${ideal[3]}</strong> and the 50 least wealthy would share <strong>$${ideal[0]}</strong>. In reality, it’s ${money(G[3].actual)} and ${money(G[0].actual)}.`;
+  if (!guessed) $("guess").classList.add("hidden");
+  $("stepLabel").classList.add("hidden");
   document.querySelector(".after").scrollIntoView({ block: "start" });
 }
-$("lock").addEventListener("click", () => reveal(true));
-$("skip").addEventListener("click", () => reveal(false));
+$("lock").addEventListener("click", () => step === "ideal" ? toGuess(true) : reveal(true));
+$("skip").addEventListener("click", () => step === "ideal" ? toGuess(false) : reveal(false));
 $("legend0").innerHTML = G.map(g => `<span><span class="sw" style="background:${g.color}"></span>${g.short}</span>`).join("");
 G.forEach((g, i) => set(i, 25));
-if (location.hash === "#answer") reveal(false);
+if (location.hash === "#answer") { step = "guess"; reveal(false); }
 </script>
 </body>
 </html>
