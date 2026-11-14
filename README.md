@@ -1,6 +1,6 @@
 # Who Has the Wealth?
 
-An interactive guess-first activity about the U.S. wealth distribution. Students imagine the country as 100 households sharing $100, divide the money the way they think it’s really divided, and then see the Federal Reserve’s figures. By Gwen Sharp, as a companion to Chapter 4 (Social Class, Inequality, and Poverty) of *A Sociology Experiment*.
+An interactive guess-first activity about the U.S. wealth distribution. Students imagine the country as 100 households sharing $100, divide the money the way they think it’s really divided, and then see the Federal Reserve’s figures. By Gwen Sharp.
 
 **Live site:** https://gsharpokie.github.io/wealthdistribution/
 
