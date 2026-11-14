@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who Has the Wealth?</title>
+<meta name="description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gsharpokie.github.io/wealthdistribution/">
+<meta property="og:title" content="Who Has the Wealth?">
+<meta property="og:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta property="og:image" content="https://gsharpokie.github.io/wealthdistribution/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Who Has the Wealth? A bar showing how $100 of U.S. wealth is divided among 100 households.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@gsharpokie">
+<meta name="twitter:title" content="Who Has the Wealth?">
+<meta name="twitter:description" content="Imagine the U.S. as 100 households sharing $100. Divide it the way you think wealth is really divided, then see the Federal Reserve’s numbers.">
+<meta name="twitter:image" content="https://gsharpokie.github.io/wealthdistribution/preview.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23173b2f'/%3E%3Crect x='5' y='22' width='4' height='5' fill='%23cfe8d8'/%3E%3Crect x='11' y='17' width='4' height='10' fill='%23cfe8d8'/%3E%3Crect x='17' y='12' width='4' height='15' fill='%23cfe8d8'/%3E%3Crect x='23' y='5' width='4' height='22' fill='%23f2c14e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column. A "divide $100 among 100 households" control, then your split vs. the actual split
+   as two stacked bars on the same $0-$100 scale, then per-household amounts and context. */
+:root {
+  --paper: #f3f5f1; --surface: #ffffff; --ink: #18241f; --muted: #57645d; --line: #d5dbd4;
+  --g1: #8fb8a3; --g2: #4f8f76; --g3: #1f6650; --g4: #c98a12;
+  --focus: #c98a12;
+  --display: "Fraunces", Georgia, serif;
+  --body: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121815; --surface: #1b2420; --ink: #e9efea; --muted: #a2afa7; --line: #323e38;
+    --g1: #5f8f79; --g2: #7fb89f; --g3: #b5dcc8; --g4: #f0b93c; --focus: #f0b93c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121815; --surface: #1b2420; --ink: #e9efea; --muted: #a2afa7; --line: #323e38;
+  --g1: #5f8f79; --g2: #7fb89f; --g3: #b5dcc8; --g4: #f0b93c; --focus: #f0b93c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.05rem; line-height: 1.55; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 3rem; display: grid; gap: 1.6rem; }
+header { display: grid; gap: .45rem; }
+.kicker { font-size: .85rem; color: var(--muted); }
+.kicker a, footer a, .notes a, .prose a { color: var(--ink); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.3rem, 8vw, 3.5rem); line-height: 1; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; line-height: 1.15; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 600; font-size: 1.15rem; margin: 0; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; display: grid; gap: 1rem; }
+.row { display: grid; gap: .15rem; }
+.row-head { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; }
+.row-head label { font-weight: 600; }
+.row-head .sub { font-size: .85rem; color: var(--muted); font-weight: 400; }
+.amt { font-family: var(--display); font-weight: 800; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.ctl { display: flex; align-items: center; gap: .5rem; }
+.ctl input { flex: 1; height: 2rem; }
+.ctl button { font: inherit; font-weight: 700; width: 2.4rem; height: 2.4rem; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+.left { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding-top: .3rem; border-top: 1px solid var(--line); }
+.left .n { font-family: var(--display); font-weight: 800; font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+button.primary { font: inherit; font-weight: 600; padding: .65rem 1.2rem; border-radius: 10px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; }
+button.primary:disabled { opacity: .4; cursor: default; }
+.linkish { font: inherit; font-size: .9rem; background: none; border: none; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.bars { display: grid; gap: .9rem; }
+.bar-label { font-size: .9rem; font-weight: 600; margin-bottom: .25rem; }
+.bar { display: flex; height: 2.6rem; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--line); }
+.bar span { display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 700; color: #fff; min-width: 0; overflow: hidden; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .85rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: .35rem; }
+.sw { width: .85rem; height: .85rem; border-radius: 2px; display: inline-block; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
+th, td { text-align: right; padding: .4rem .5rem; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+th { font-size: .8rem; color: var(--muted); font-weight: 600; }
+.tablewrap { overflow-x: auto; }
+.big { font-size: 1.1rem; margin: 0; max-width: 60ch; }
+.prose p, .prose ol { margin: 0 0 .7rem; max-width: 64ch; }
+.prose li { margin-bottom: .4rem; }
+.notes { font-size: .88rem; color: var(--muted); }
+footer { font-size: .85rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media (max-width: 560px) { .card { padding: 1.1rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">A companion to <em>A Sociology Experiment</em>, Chapter 4: Social Class, Inequality, and Poverty · By Gwen Sharp · <a href="https://x.com/gsharpokie">@gsharpokie</a></div>
+    <h1>Who Has the Wealth?</h1>
+    <p class="lede">Imagine the United States as 100 households, lined up from least wealthy to most, sharing $100 of wealth. Wealth means everything a household owns (home, savings, retirement accounts, stocks) minus what it owes. Divide the $100 the way you think it’s really divided.</p>
+  </header>
+
+  <section class="card" id="guess">
+    <h2>Your guess</h2>
+    <div id="rows"></div>
+    <div class="left">
+      <span>Left to hand out: <span class="n" id="left">$0</span></span>
+      <span style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+        <button class="linkish" id="skip">Skip to the answer</button>
+        <button class="primary" id="lock">Lock in my guess</button>
+      </span>
+    </div>
+    <p class="notes" id="hint" style="margin:0">To give one group more, lower another group first. All $100 has to be handed out.</p>
+  </section>
+
+  <section class="card hidden after" aria-live="polite">
+    <h2 id="resHead">Here’s the real split</h2>
+    <div class="legend" id="legend" aria-hidden="true"></div>
+    <div class="bars" id="bars"></div>
+    <p class="big" id="punch"></p>
+    <div class="tablewrap"><table id="tbl"></table></div>
+  </section>
+
+  <section class="card prose hidden after">
+    <h2>The fuller picture</h2>
+    <p><strong>Most people underestimate the gap.</strong> In a 2005 survey of 5,522 Americans, people guessed that the richest fifth of households held about 59% of the country’s wealth. At the time it held about 84%. Asked what would be ideal, they said about 32%. Republicans and Democrats, and richer and poorer people, described similar ideals.</p>
+    <p><strong>The top share is at a record.</strong> The top 1% held 22.8% of wealth when the Federal Reserve’s series began in 1989 and 32.5% in mid-2026, the highest in the series.</p>
+    <p><strong>The bottom half has recovered from its low point, though not to where it started.</strong> Its share fell from 3.5% in 1989 to 0.4% after the housing crash (2010–2012). It was 2.3% in mid-2026.</p>
+    <p><strong>Wealth isn’t income, and age matters.</strong> People usually build wealth over a lifetime, so a 25-year-old with student loans and a 65-year-old with a paid-off house can land in very different groups without being in different social classes. These figures also don’t count future Social Security benefits, which matter most for households with little other wealth.</p>
+    <h3>Talk about it</h3>
+    <ol>
+      <li>How close was your guess? Which group did you miss by the most, and why do you think that is?</li>
+      <li>Most of us rarely see how much wealth other people have. What do we see instead, and how might that shape our guesses?</li>
+      <li>In the 2005 survey, people across political lines said they’d prefer a more equal split than the real one. If that’s so, why don’t more people push for it? Economists and political scientists point to beliefs about mobility, disagreement about causes, and not knowing the real numbers. Which seems most convincing?</li>
+      <li>Would the picture look different if we measured income instead of wealth? Why?</li>
+      <li>What would you want to know about the households in the bottom 50 before deciding how much of a problem the gap is? Think about age, debt, and home ownership.</li>
+    </ol>
+  </section>
+
+  <section class="notes prose">
+    <h3>About the data</h3>
+    <p>Shares of household net worth come from the Federal Reserve’s Distributional Financial Accounts for the second quarter of 2026 (released September 18, 2026): bottom 50% of households, 2.3%; next 40%, 28.8%; next 9%, 36.4%; top 1%, 32.5%. The Fed updates these every quarter and revises earlier quarters. The 100-household picture is these shares applied to $100.</p>
+    <p><strong>Sources:</strong> Board of Governors of the Federal Reserve System, <a href="https://www.federalreserve.gov/releases/z1/dataviz/dfa/">Distributional Financial Accounts</a>, via FRED (series <a href="https://fred.stlouisfed.org/series/WFRBST01134">WFRBST01134</a> and <a href="https://fred.stlouisfed.org/series/WFRBSB50215">WFRBSB50215</a>). Norton, Michael I. and Dan Ariely. 2011. “Building a Better America—One Wealth Quintile at a Time.” <em>Perspectives on Psychological Science</em> 6(1): 9–12.</p>
+    <h3>How to cite this page</h3>
+    <p>Sharp, Gwen. 2026. “Who Has the Wealth?” <a href="https://gsharpokie.github.io/wealthdistribution/">https://gsharpokie.github.io/wealthdistribution/</a></p>
+    <p>Spot an error? <a href="https://github.com/gsharpokie/wealthdistribution/issues/new">Suggest a correction</a> (needs a free GitHub account).</p>
+  </section>
+
+  <footer>Created by Gwen Sharp (<a href="https://x.com/gsharpokie">@gsharpokie</a>). Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</footer>
+</div>
+
+<script>
+// Federal Reserve Distributional Financial Accounts, share of net worth, 2026:Q2. `n` = households out of 100.
+const AS_OF = "mid-2026";
+const G = [
+  { id: "b50", name: "The 50 least wealthy households", short: "Bottom 50", n: 50, actual: 2.3,  color: "var(--g1)" },
+  { id: "n40", name: "The next 40 households",          short: "Next 40",   n: 40, actual: 28.8, color: "var(--g2)" },
+  { id: "n9",  name: "The next 9 households",           short: "Next 9",    n: 9,  actual: 36.4, color: "var(--g3)" },
+  { id: "t1",  name: "The single wealthiest household", short: "Top 1",     n: 1,  actual: 32.5, color: "var(--g4)" }
+];
+const $ = id => document.getElementById(id);
+const vals = [25, 25, 25, 25];
+const money = v => "$" + (Number.isInteger(v) ? v : v.toFixed(2));
+const per = v => "$" + (v < 1 ? v.toFixed(2) : v.toFixed(2));
+
+$("rows").innerHTML = G.map((g, i) => `
+  <div class="row">
+    <div class="row-head"><label for="s${i}">${g.name}</label><span class="amt" id="a${i}" style="color:${g.color}">$25</span></div>
+    <div class="ctl">
+      <button data-i="${i}" data-d="-1" aria-label="Give ${g.short} one dollar less">−</button>
+      <input type="range" id="s${i}" min="0" max="100" step="1" value="25" style="accent-color:${g.color}">
+      <button data-i="${i}" data-d="1" aria-label="Give ${g.short} one dollar more">+</button>
+    </div>
+  </div>`).join("");
+
+function set(i, v) {
+  const others = vals.reduce((s, x, j) => j === i ? s : s + x, 0);
+  vals[i] = Math.max(0, Math.min(v, 100 - others));
+  $("s" + i).value = vals[i];
+  $("a" + i).textContent = "$" + vals[i];
+  const left = 100 - vals.reduce((s, x) => s + x, 0);
+  $("left").textContent = "$" + left;
+  $("lock").disabled = left !== 0;
+}
+G.forEach((g, i) => $("s" + i).addEventListener("input", e => set(i, +e.target.value)));
+document.querySelectorAll(".ctl button").forEach(b => b.addEventListener("click", () => set(+b.dataset.i, vals[+b.dataset.i] + +b.dataset.d)));
+
+function bar(label, arr) {
+  return `<div><div class="bar-label">${label}</div><div class="bar" role="img" aria-label="${label}: ${G.map((g, i) => g.short + " " + money(arr[i])).join(", ")}">` +
+    G.map((g, i) => `<span style="flex:${Math.max(arr[i], 0.0001)} 1 0;background:${g.color}">${arr[i] >= 7 ? money(arr[i]) : ""}</span>`).join("") + `</div></div>`;
+}
+function reveal(guessed) {
+  document.querySelectorAll(".after").forEach(e => e.classList.remove("hidden"));
+  $("legend").innerHTML = G.map(g => `<span><span class="sw" style="background:${g.color}"></span>${g.short}</span>`).join("");
+  const actual = G.map(g => g.actual);
+  $("bars").innerHTML = (guessed ? bar("Your guess", vals) : "") + bar(`Actual, ${AS_OF}`, actual);
+  const each = G.map(g => g.actual / g.n);
+  $("punch").innerHTML = `The 50 least wealthy households share <strong>${money(G[0].actual)}</strong>, about <strong>5 cents</strong> each. The single wealthiest household has <strong>${money(G[3].actual)}</strong>, more than the bottom 90 households combined (${money(G[0].actual + G[1].actual)}).`;
+  let t = `<thead><tr><th>Group</th>${guessed ? "<th>Your guess</th>" : ""}<th>Actual</th><th>Per household</th></tr></thead><tbody>`;
+  G.forEach((g, i) => t += `<tr><td>${g.name}</td>${guessed ? `<td>$${vals[i]}</td>` : ""}<td>${money(g.actual)}</td><td>${per(each[i])}</td></tr>`);
+  $("tbl").innerHTML = t + "</tbody>";
+  if (guessed) {
+    const miss = G.map((g, i) => Math.abs(vals[i] - g.actual));
+    const w = miss.indexOf(Math.max(...miss));
+    $("resHead").textContent = vals[3] < G[3].actual - 5 ? "It’s more lopsided than you guessed." : "Here’s the real split";
+    $("punch").innerHTML += ` Your biggest miss was <strong>${G[w].short.toLowerCase()}</strong>: you gave them $${vals[w]}, and they have ${money(G[w].actual)}.`;
+    document.querySelectorAll("#rows input, #rows button, #lock").forEach(e => e.disabled = true);
+    $("skip").classList.add("hidden"); $("hint").classList.add("hidden");
+  }
+  document.querySelector(".after").scrollIntoView({ block: "start" });
+}
+$("lock").addEventListener("click", () => reveal(true));
+$("skip").addEventListener("click", () => reveal(false));
+G.forEach((g, i) => set(i, 25));
+if (location.hash === "#answer") reveal(false);
+</script>
+</body>
+</html>
